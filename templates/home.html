@@ -1,0 +1,42 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Welcome to the CMS!</h2>
+    
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.username }}! You are logged in.</p>
+        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+        <p><a href="{{ url_for('create_article') }}">Create Article</a></p>
+    {% else %}
+        <p>If you don't have an account, <a href="{{ url_for('register') }}">register here</a>.</p>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+    {% endif %}
+
+    <h3>Search and Filter Articles:</h3>
+    <form action="{{ url_for('search_articles') }}" method="GET">
+        <label for="search">Search:</label>
+        <input type="text" name="search" id="search">
+        <label for="filter">Filter by:</label>
+        <select name="filter" id="filter">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="tags">Tags</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <h3>Articles:</h3>
+    <ul>
+        {% for article in articles.items %}
+            <li>
+                <strong>{{ article.title }}</strong> by {{ article.author }} ({{ article.tags }})
+                <p>{{ article.content }}</p>
+                <p><a href="{{ url_for('edit_article', article_id=article.id) }}">Edit</a> | <a href="{{ url_for('delete_article', article_id=article.id) }}">Delete</a></p>
+            </li>
+            
+            {{ articles.prev() }} | Page {{ articles.page }} of {{ articles.pages }} | {{ articles.next() }}
+        {% endfor %}
+    </ul>
+
+{% endblock %}

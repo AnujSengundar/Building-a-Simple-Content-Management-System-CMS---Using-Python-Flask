@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Article List</h2>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Tags</th>
+            <th>Action</th>
+        </tr>
+        {% for article in articles.items %}
+            <tr>
+                <td>{{ article.title }}</td>
+                <td>{{ article.author }}</td>
+                <td>{{ article.tags }}</td>
+                <td><a href="{{ url_for('view_article', article_id=article.id) }}">View</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if articles.has_prev %}
+        <a href="{{ url_for('article_list', page=articles.prev_num) }}">« Prev</a>
+    {% endif %}
+    
+    Page {{ articles.page }} of {{ articles.pages }}
+    
+    {% if articles.has_next %}
+        <a href="{{ url_for('article_list', page=articles.next_num) }}">Next »</a>
+    {% endif %}
+{% endblock %}

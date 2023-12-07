@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Edit Article</h2>
+    <form method="post" action="">
+        {{ form.hidden_tag() }}
+        <div>{{ form.title.label }}</div>
+        <div>{{ form.title() }}</div>
+        <div>{{ form.content.label }}</div>
+        <div>{{ form.content() }}</div>
+        <div>{{ form.tags.label }}</div>
+        <div>{{ form.tags() }}</div>
+        <div><input type="submit" value="Update Article"></div>
+    </form>
+{% endblock %}
